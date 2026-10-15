@@ -38,6 +38,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; background: var(--ink); }
 body {
   margin: 0;
@@ -455,6 +456,97 @@ main { position: relative; z-index: 1; }
   .foot { grid-template-columns: 1fr; }
   .hero-actions .btn { flex: 1 1 100%; }
 }
+/* Assistente Cora */
+.cora-launch {
+  position: fixed; right: 22px; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); z-index: 90;
+  width: 62px; height: 62px; border-radius: 50%; border: 0; cursor: pointer; padding: 2px;
+  background: var(--grad); box-shadow: 0 18px 50px -12px rgba(255,122,69,.6);
+  transition: transform .35s var(--ease), box-shadow .35s;
+}
+.cora-launch:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 24px 60px -12px rgba(255,122,69,.75); }
+.cora-launch .in { width: 100%; height: 100%; border-radius: 50%; background: var(--ink-2); display: grid; place-items: center; position: relative; overflow: hidden; }
+.cora-launch .in svg { width: 30px; height: 30px; transition: transform .4s var(--ease), opacity .3s; }
+.cora-launch .x { position: absolute; opacity: 0; transform: rotate(-90deg) scale(.6); }
+.cora-open .cora-launch .logo-i { opacity: 0; transform: rotate(90deg) scale(.6); }
+.cora-open .cora-launch .x { opacity: 1; transform: none; }
+.cora-launch::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid rgba(255,122,69,.5); animation: coraRing 2.6s var(--ease) infinite; pointer-events: none; }
+.cora-open .cora-launch::before { display: none; }
+@keyframes coraRing { 0% { transform: scale(.92); opacity: .9; } 100% { transform: scale(1.3); opacity: 0; } }
+.cora-badge { position: absolute; top: -2px; right: -2px; min-width: 20px; height: 20px; border-radius: 99px; background: var(--plasma); color: var(--ink); font: 600 11px/20px var(--f-body); text-align: center; border: 2px solid var(--ink); }
+
+.cora-teaser {
+  position: fixed; right: 22px; bottom: calc(98px + env(safe-area-inset-bottom, 0px)); z-index: 90;
+  max-width: 270px; padding: 14px 36px 14px 16px; border-radius: 16px 16px 4px 16px;
+  background: var(--surface-2); border: 1px solid var(--line-2); box-shadow: 0 20px 50px -18px rgba(0,0,0,.8);
+  font-size: 14.5px; line-height: 1.45; cursor: pointer; animation: teaserIn .6s var(--ease);
+}
+.cora-teaser b { color: var(--plasma-soft); font-weight: 500; }
+.cora-teaser .close { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border: 0; border-radius: 50%; background: transparent; color: var(--dim); cursor: pointer; font-size: 16px; line-height: 1; }
+.cora-teaser .close:hover { color: var(--fg); background: rgba(255,255,255,.06); }
+@keyframes teaserIn { from { opacity: 0; transform: translateY(12px) scale(.96); } }
+
+.cora-panel {
+  position: fixed; right: 22px; bottom: calc(98px + env(safe-area-inset-bottom, 0px)); z-index: 91;
+  width: 390px; height: min(640px, calc(100vh - 130px)); max-width: calc(100vw - 32px);
+  display: grid; grid-template-rows: auto 1fr auto; border-radius: 22px; overflow: hidden;
+  background: rgba(10,12,19,.94); backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid var(--line-2); box-shadow: 0 40px 120px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(255,122,69,.08);
+  transform-origin: 100% 100%; transition: transform .45s var(--ease), opacity .3s;
+}
+.cora-panel[hidden] { display: grid !important; opacity: 0; transform: translateY(16px) scale(.94); pointer-events: none; visibility: hidden; }
+.cora-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(255,122,69,.07), transparent); }
+.cora-av { width: 40px; height: 40px; border-radius: 50%; padding: 1.5px; background: var(--grad); flex: none; position: relative; }
+.cora-av span { width: 100%; height: 100%; border-radius: 50%; background: var(--ink-2); display: grid; place-items: center; }
+.cora-av span svg { width: 22px; height: 22px; }
+.cora-av::after { content: ""; position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--ok); border: 2px solid var(--ink-2); }
+.cora-head b { display: block; font: 600 15.5px/1.2 var(--f-display); letter-spacing: -0.01em; }
+.cora-head > div:nth-child(2) { min-width: 0; }
+.cora-head small { display: block; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cora-head .mode-tag { margin-left: auto; white-space: nowrap; flex: none; font: 500 10.5px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); border: 1px solid var(--line-2); padding: 5px 8px; border-radius: 99px; }
+.cora-head .mode-tag.ai { color: var(--ok); border-color: rgba(94,224,160,.4); }
+.cora-head .reset { width: 32px; height: 32px; border-radius: 9px; border: 0; background: transparent; color: var(--dim); cursor: pointer; display: grid; place-items: center; }
+.cora-head .reset:hover { color: var(--fg); background: rgba(255,255,255,.05); }
+.cora-log { overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth; overscroll-behavior: contain; }
+.cora-log::-webkit-scrollbar { width: 6px; } .cora-log::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 9px; }
+.cm { max-width: 86%; padding: 11px 14px; font-size: 14.5px; line-height: 1.55; border-radius: 16px; animation: msgIn .4s var(--ease); overflow-wrap: anywhere; }
+.cm.bot { align-self: flex-start; background: var(--surface-2); border: 1px solid var(--line); border-bottom-left-radius: 4px; color: #dfe4ee; }
+.cm.me { align-self: flex-end; background: var(--plasma); color: var(--ink); border-bottom-right-radius: 4px; font-weight: 500; }
+.cm b { color: var(--fg); font-weight: 600; }
+.cm.me b { color: var(--ink); }
+.cm .caret { height: .95em; }
+.typing { align-self: flex-start; display: flex; gap: 5px; padding: 14px 16px; border-radius: 16px; border-bottom-left-radius: 4px; background: var(--surface-2); border: 1px solid var(--line); }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: dot 1.2s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes dot { 0%, 60%, 100% { transform: none; opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.c-actions { display: flex; flex-wrap: wrap; gap: 7px; align-self: flex-start; max-width: 100%; animation: msgIn .4s var(--ease); }
+.c-actions button { border: 1px solid var(--line-2); background: rgba(255,255,255,.02); padding: 8px 13px; border-radius: 999px; font-size: 13px; cursor: pointer; color: #d6dbe6; transition: border-color .2s, background .2s, color .2s; text-align: left; }
+.c-actions button:hover { border-color: var(--plasma); background: rgba(255,122,69,.08); color: var(--fg); }
+.c-actions button.primary { background: var(--fg); color: var(--ink); border-color: var(--fg); font-weight: 500; }
+.c-actions button.primary:hover { background: #fff; }
+.roi-card { align-self: stretch; border-radius: 16px; padding: 16px; background: linear-gradient(150deg, #1a1210, var(--surface-2) 60%); border: 1px solid var(--line-2); display: grid; gap: 12px; animation: msgIn .4s var(--ease); }
+.roi-card .k { font: 500 10.5px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.roi-card .big { font: 800 2rem/1 var(--f-display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.roi-grid div { display: grid; gap: 5px; padding: 10px; border-radius: 10px; background: rgba(5,6,10,.5); border: 1px solid var(--line); }
+.roi-grid b { font: 600 15px/1.1 var(--f-body); font-variant-numeric: tabular-nums; }
+.roi-card .fine { font-size: 11.5px; color: var(--dim); line-height: 1.4; }
+.cora-foot { border-top: 1px solid var(--line); padding: 12px; display: grid; gap: 8px; }
+.cora-form { display: flex; gap: 8px; align-items: center; }
+.cora-form input { flex: 1; min-width: 0; height: 46px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); padding: 0 14px; font-size: 14.5px; transition: border-color .2s; }
+.cora-form input:focus { outline: none; border-color: var(--plasma); }
+.cora-form button { width: 46px; height: 46px; border-radius: 12px; border: 0; background: var(--plasma); color: var(--ink); cursor: pointer; display: grid; place-items: center; flex: none; transition: transform .2s, opacity .2s; }
+.cora-form button:hover { transform: scale(1.05); }
+.cora-form button:disabled { opacity: .4; transform: none; cursor: default; }
+.cora-note { text-align: center; font: 400 10.5px/1.3 var(--f-mono); color: var(--dim); letter-spacing: .02em; }
+@media (max-width: 600px) {
+  .cora-panel { right: 0; left: 0; bottom: 0; top: 0; width: 100%; max-width: 100%; height: 100%; border-radius: 0; border: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .cora-open .cora-launch { display: none; }
+  .cora-teaser { right: 16px; left: 16px; max-width: none; }
+  .cora-launch { right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+}
+.cora-head .close-m { display: none; }
+@media (max-width: 600px) { .cora-head .close-m { display: grid; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   .rv.pre { transform: none; opacity: 1; }
@@ -921,6 +1013,44 @@ main { position: relative; z-index: 1; }
   </div>
 </footer>
 
+<!-- ASSISTENTE CORA -->
+<div class="cora-teaser" id="cora-teaser" role="button" tabindex="0" hidden>
+  <button class="close" id="cora-teaser-x" type="button" aria-label="Fechar aviso">×</button>
+  Oi! Sou a <b>Cora</b>. Quer saber quanto a IA economizaria na sua empresa? Faço a conta em 30 segundos.
+</div>
+<div class="cora-panel" id="cora-panel" role="dialog" aria-label="Assistente Cora" hidden>
+  <div class="cora-head">
+    <div class="cora-av"><span>
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="url(#lg)" stroke-width="2"/><path d="M22 10.5A8 8 0 1 0 22 21.5" stroke="#eef1f7" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="16" r="2.4" fill="#ff7a45"/></svg>
+    </span></div>
+    <div><b>Cora</b><small>Assistente da Cortexa · online</small></div>
+    <span class="mode-tag" id="cora-mode">modo demo</span>
+    <button class="reset" id="cora-reset" type="button" aria-label="Recomeçar conversa" title="Recomeçar conversa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+    </button>
+    <button class="reset close-m" id="cora-close" type="button" aria-label="Fechar assistente">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="cora-log" id="cora-log" aria-live="polite"></div>
+  <div class="cora-foot">
+    <form class="cora-form" id="cora-form">
+      <input id="cora-in" type="text" placeholder="Escreva sua mensagem…" autocomplete="off" maxlength="500" aria-label="Mensagem para a Cora">
+      <button id="cora-send" type="submit" aria-label="Enviar mensagem">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+    <p class="cora-note">A Cora pode errar. Não compartilhe senhas nem dados sensíveis.</p>
+  </div>
+</div>
+<button class="cora-launch" id="cora-launch" type="button" aria-label="Abrir assistente Cora" aria-expanded="false" aria-controls="cora-panel">
+  <span class="in">
+    <svg class="logo-i" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="14" stroke="url(#lg)" stroke-width="2"/><path d="M22 10.5A8 8 0 1 0 22 21.5" stroke="#eef1f7" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="16" r="2.4" fill="#ff7a45"/></svg>
+    <svg class="x" viewBox="0 0 24 24" fill="none" stroke="#eef1f7" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg>
+  </span>
+  <span class="cora-badge" id="cora-badge" hidden>1</span>
+</button>
+
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1311,6 +1441,279 @@ main { position: relative; z-index: 1; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Digite um e-mail válido, como ana@empresa.com.br.'; err.hidden = false; $('#f-email').focus(); return; }
     err.hidden = true; $('#form-fields').hidden = true; $('#form-done').hidden = false;
   });
+})();
+</script>
+
+<script>
+/* ---------- Assistente Cora ---------- */
+(() => {
+  /* Para ligar a IA de verdade (Claude), cole aqui a URL do seu Cloudflare Worker. Veja worker/README.md. */
+  const CORA_ENDPOINT = '';
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const sleep = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  const root = document.documentElement;
+  const launch = $('#cora-launch'), panel = $('#cora-panel'), log = $('#cora-log');
+  const form = $('#cora-form'), input = $('#cora-in'), sendB = $('#cora-send');
+  const teaser = $('#cora-teaser'), badge = $('#cora-badge');
+  let started = false, busy = false, flow = null;
+  let history = [];
+
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+  const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+  const int = v => Math.round(v).toLocaleString('pt-BR');
+  const down = () => { log.scrollTop = log.scrollHeight; };
+  const mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  if (CORA_ENDPOINT) { const t = $('#cora-mode'); t.textContent = 'IA ao vivo'; t.classList.add('ai'); }
+
+  /* Abrir e fechar */
+  function open(startWith) {
+    panel.hidden = false; root.classList.add('cora-open');
+    launch.setAttribute('aria-expanded', 'true'); launch.setAttribute('aria-label', 'Fechar assistente Cora');
+    teaser.hidden = true; badge.hidden = true;
+    try { sessionStorage.setItem('cora-seen', '1'); } catch (e) {}
+    if (!started) { started = true; botTurn(startWith === 'roi' ? introROI : welcome); }
+    if (matchMedia('(pointer:fine)').matches) setTimeout(() => input.focus(), 250);
+  }
+  function close() {
+    panel.hidden = true; root.classList.remove('cora-open');
+    launch.setAttribute('aria-expanded', 'false'); launch.setAttribute('aria-label', 'Abrir assistente Cora');
+  }
+  launch.addEventListener('click', () => panel.hidden ? open() : close());
+  $('#cora-close').addEventListener('click', close);
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(); });
+  teaser.addEventListener('click', e => { if (e.target.id !== 'cora-teaser-x') open('roi'); });
+  teaser.addEventListener('keydown', e => { if (e.key === 'Enter') open('roi'); });
+  $('#cora-teaser-x').addEventListener('click', () => { teaser.hidden = true; try { sessionStorage.setItem('cora-seen', '1'); } catch (e) {} });
+  $('#cora-reset').addEventListener('click', () => {
+    if (busy) return;
+    log.innerHTML = ''; history = []; flow = null; botTurn(welcome);
+  });
+
+  let seen = false;
+  try { seen = sessionStorage.getItem('cora-seen') === '1'; } catch (e) {}
+  if (!seen) setTimeout(() => { if (!started) { teaser.hidden = false; badge.hidden = false; } }, 9000);
+
+  /* Mensagens */
+  function typing() { const t = mk('div', 'typing', '<i></i><i></i><i></i>'); log.append(t); down(); return t; }
+  async function say(text, opts = {}) {
+    const t = typing();
+    await sleep((opts.delay ?? 450) + Math.min(700, text.length * 3));
+    t.remove();
+    const d = mk('div', 'cm bot'); log.append(d);
+    if (reduce) d.innerHTML = md(text);
+    else {
+      const parts = text.split(/(\s+)/); let acc = '';
+      for (const p of parts) { acc += p; d.innerHTML = md(acc); down(); if (p.trim()) await sleep(16); }
+    }
+    history.push({ role: 'assistant', content: text });
+    if (opts.actions) addActions(opts.actions);
+    down();
+  }
+  function addActions(list) {
+    const w = mk('div', 'c-actions');
+    list.forEach(a => {
+      const b = mk('button', a.primary ? 'primary' : ''); b.type = 'button'; b.textContent = a.label;
+      b.addEventListener('click', () => userTurn(a.label, a.run));
+      w.append(b);
+    });
+    log.append(w); down();
+  }
+  async function botTurn(fn) {
+    busy = true; sendB.disabled = true;
+    try { await fn(); } finally { busy = false; sendB.disabled = false; }
+  }
+  async function userTurn(text, run) {
+    text = (text || '').trim();
+    if (!text || busy) return;
+    log.querySelectorAll('.c-actions').forEach(n => n.remove());
+    log.append(mk('div', 'cm me', esc(text))); down();
+    history.push({ role: 'user', content: text });
+    input.value = '';
+    await botTurn(async () => {
+      if (run) return run();
+      if (flow) return flow(text);
+      const it = match(text);
+      if (it && (it.local || !CORA_ENDPOINT)) return it.run(text);
+      if (CORA_ENDPOINT) return askAI(text);
+      return fallback();
+    });
+  }
+  form.addEventListener('submit', e => { e.preventDefault(); userTurn(input.value); });
+
+  /* Navegação pela página */
+  async function goTo(sel, msg) {
+    if (innerWidth <= 600) close();
+    document.querySelector(sel)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    if (msg) await say(msg, { actions: menu(), delay: 200 });
+  }
+  const menu = () => [
+    { label: 'O que a Cortexa faz?' },
+    { label: 'Quanto custa?' },
+    { label: 'Calcular minha economia' },
+    { label: 'Meus dados ficam seguros?' },
+    { label: 'Falar com especialista' }
+  ];
+  const welcome = () => say('Oi! Eu sou a **Cora**, assistente da Cortexa. 👋\n\nPosso explicar nossos produtos, mostrar preços ou calcular quanto a IA economizaria na sua empresa. Por onde quer começar?', { actions: menu(), delay: 250 });
+
+  /* Calculadora de economia */
+  function parseNum(t) {
+    const s = norm(t).replace(/r\$/g, '').trim();
+    const m = s.match(/\d[\d.,]*/); if (!m) return 0;
+    let x = m[0];
+    if (/,\d{1,2}$/.test(x)) x = x.replace(/\./g, '').replace(',', '.');
+    else x = x.replace(/[.,](?=\d{3}(\D|$))/g, '').replace(',', '.');
+    let n = parseFloat(x);
+    if (/\d\s*(mil|k)\b/.test(s)) n *= 1000;
+    else if (/\d\s*(mi|milhao|milhoes)\b/.test(s)) n *= 1e6;
+    return n;
+  }
+  async function introROI() {
+    await say('Oi! Eu sou a **Cora**. Vamos calcular quanto a IA economizaria na sua empresa.', { delay: 250 });
+    await startROI(true);
+  }
+  async function startROI(skipIntro) {
+    const roi = {};
+    await say((skipIntro ? '' : 'Vamos lá! Em duas perguntas eu estimo a sua economia no atendimento.\n\n') + '**1.** Quantos atendimentos sua empresa faz por mês? Some chat, e-mail, telefone e WhatsApp.',
+      { actions: [{ label: '1.000' }, { label: '5.000' }, { label: '20.000' }, { label: '100.000' }] });
+    flow = async t => {
+      const n = parseNum(t);
+      if ((!n || n < 10) && await escapeFlow(t)) return;
+      if (!n || n < 10) return say('Não entendi o número. Pode digitar só a quantidade? Por exemplo: **8000** ou **8 mil**.');
+      roi.n = n;
+      flow = async t2 => {
+        const c = parseNum(t2);
+        if ((!c || c > 2000) && await escapeFlow(t2)) return;
+        if (!c || c > 2000) return say('Me diga só o valor em reais, por exemplo **12** ou **R$ 12,50**.');
+        roi.c = c; flow = null;
+        await showROI(roi);
+      };
+      await say(`Anotado: **${int(n)} atendimentos por mês**.\n\n**2.** Quanto custa, em média, cada atendimento hoje? Inclua salários, encargos e ferramentas. Se não souber, escolha uma faixa:`,
+        { actions: [{ label: 'R$ 5' }, { label: 'R$ 12' }, { label: 'R$ 25' }] });
+    };
+  }
+  async function showROI({ n, c }) {
+    const AUTO = 0.72, AI_COST = 0.35, MIN_PER_CASE = 6, GROWTH = 2900;
+    const auto = n * AUTO, month = auto * Math.max(0, c - AI_COST), year = month * 12, hours = auto * MIN_PER_CASE / 60;
+    const t = typing(); await sleep(1100); t.remove();
+    const card = mk('div', 'roi-card', `
+      <span class="k">Economia estimada por ano</span>
+      <div class="big grad-text">${brl(0)}</div>
+      <div class="roi-grid">
+        <div><span class="k">Por mês</span><b>${brl(month)}</b></div>
+        <div><span class="k">Resolvidos pela IA</span><b>${int(auto)} por mês</b></div>
+        <div><span class="k">Horas liberadas</span><b>${int(hours)} h por mês</b></div>
+        <div><span class="k">Retorno sobre o Growth</span><b>${month > 0 ? (month / GROWTH).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + 'x' : '—'}</b></div>
+      </div>
+      <p class="fine">Estimativa com 72% dos atendimentos resolvidos pela IA (média dos clientes), R$ 0,35 por atendimento com IA e 6 minutos por atendimento humano.</p>`);
+    log.append(card); down();
+    const big = card.querySelector('.big'), t0 = performance.now(), dur = reduce ? 1 : 1300;
+    await new Promise(res => {
+      const step = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        big.textContent = brl(year * (1 - Math.pow(1 - p, 3)));
+        p < 1 ? requestAnimationFrame(step) : res();
+      };
+      requestAnimationFrame(step);
+    });
+    history.push({ role: 'assistant', content: `Estimativa: economia de ${brl(year)} por ano (${brl(month)} por mês) com ${int(n)} atendimentos/mês a ${brl(c)} cada.` });
+    await say(month > 0
+      ? `Com **${int(n)} atendimentos** por mês, a IA pode liberar cerca de **${int(hours)} horas** da sua equipe todo mês. Quer que um especialista valide esses números com os dados reais da sua operação?`
+      : 'Com esse custo por atendimento, a economia direta é pequena, mas a IA ainda reduz o tempo de resposta e libera a equipe. Quer conversar com um especialista sobre outros ganhos?',
+      { actions: [{ label: 'Quero falar com um especialista', primary: true, run: startLead }, { label: 'Ver planos', run: () => goTo('#precos', 'Levei você até os planos. O **Growth** é o mais escolhido por empresas que colocam IA em produção.') }, { label: 'Refazer a conta', run: () => startROI() }] });
+  }
+
+  /* Captura de contato */
+  const GOALS = ['Automatizar atendimento', 'Analisar dados internos', 'Visão computacional', 'Treinar um modelo próprio', 'Ainda estou explorando'];
+  async function startLead() {
+    const lead = {};
+    await say('Ótimo! São só três perguntas rápidas.\n\nQual é o seu **nome**?');
+    flow = async t => {
+      const name = t.replace(/^(meu nome (é|e)|me chamo|aqui é|aqui e|sou (o|a)|sou)\s+/i, '').replace(/[^\p{L}\s'-]/gu, '').trim().split(/\s+/).slice(0, 3).join(' ');
+      if (!name) return say('Pode me dizer só o seu nome?');
+      lead.name = name.replace(/(^|\s)\p{L}/gu, m => m.toUpperCase());
+      const first = lead.name.split(' ')[0];
+      flow = async t2 => {
+        const em = (t2.match(/[^\s@]+@[^\s@]+\.[^\s@]+/) || [])[0];
+        if (!em && await escapeFlow(t2)) return;
+        if (!em) return say('Esse e-mail parece incompleto. Pode conferir? Exemplo: **ana@empresa.com.br**');
+        lead.email = em.replace(/[.,;]+$/, '');
+        flow = async t3 => { lead.goal = t3; flow = null; await finishLead(lead, first); };
+        await say('Perfeito. E qual é o seu **principal objetivo** com IA hoje?', { actions: GOALS.map(g => ({ label: g })) });
+      };
+      await say(`Prazer, **${first}**! Qual é o seu **e-mail corporativo**?`);
+    };
+  }
+  async function finishLead(lead, first) {
+    const fn = $('#f-name'), fe = $('#f-email'), fg = $('#f-goal');
+    if (fn) fn.value = lead.name;
+    if (fe) fe.value = lead.email;
+    if (fg) { const o = [...fg.options].find(o => norm(o.text) === norm(lead.goal)); if (o) fg.value = o.value; }
+    await say(`Tudo certo, **${first}**! Anotei:\n• E-mail: ${lead.email}\n• Objetivo: ${lead.goal}\n\nJá preenchi o formulário de contato da página com esses dados. Como este site é uma demonstração, nada foi enviado. Em um site real, um especialista responderia em até um dia útil.`,
+      { actions: [{ label: 'Ver o formulário', primary: true, run: () => goTo('#contato') }, { label: 'Tenho outra dúvida', run: () => say('Claro! Pode perguntar o que quiser.', { actions: menu(), delay: 200 }) }] });
+  }
+
+  /* Respostas */
+  const INTENTS = [
+    { k: /econom|\broi\b|retorno|calcul|reduzir custo|quanto (eu )?(vou|posso|vamos) (ganhar|economizar)/, local: true, run: () => startROI() },
+    { k: /humano|atendente|especialista|vendas|comercial|falar com|contato|ligar|telefone|reuniao|agendar|proposta|orcamento|consultor/, local: true, run: startLead },
+    { k: /teste|testar|gratis|gratuito|trial|experimentar|sem cartao/, run: () => say('O plano **Starter** tem **14 dias grátis**, sem cartão de crédito. No fim você escolhe continuar, mudar de plano ou encerrar, sem multa.',
+        { actions: [{ label: 'Quero começar o teste', primary: true, run: startLead }, { label: 'Quanto custa?' }] }) },
+    { k: /preco|valor|quanto custa|custa|plano|mensalidade|assinatura|pagar|caro|barato|investimento/, run: () => say('Temos três planos:\n\n• **Starter**: R$ 490/mês. Atlas 3 mini, 20 milhões de tokens e 3 agentes.\n• **Growth**: R$ 2.900/mês. Atlas 3 completo, 250 milhões de tokens, agentes ilimitados e Vision. É o mais escolhido.\n• **Enterprise**: sob medida, com implantação dedicada, Forge e SLA de 99,99%.\n\nNo plano anual você economiza **20%**, e o Starter tem 14 dias grátis.',
+        { actions: [{ label: 'Ver planos na página', run: () => goTo('#precos', 'Pronto, estes são os planos. Use o botão **Anual** para ver os preços com 20% de desconto.') }, { label: 'Calcular minha economia' }, { label: 'Falar com especialista' }] }) },
+    { k: /segur|lgpd|privacidade|dados pessoais|shield|vaza|sigilo|confidencial/, run: () => say('**Seus dados ficam protegidos.**\n\n• Nunca usamos seus dados para treinar modelos de outros clientes\n• Dados pessoais, como CPF, são mascarados automaticamente\n• Toda resposta fica registrada numa trilha de auditoria\n• Os servidores ficam em São Paulo e Fortaleza\n\nTudo isso está no contrato, com auditoria independente todo ano.', { actions: menu() }) },
+    { k: /onde ficam|data ?center|armazen|servidor|hospedad|on.?premise|nuvem/, run: () => say('Os dados ficam em data centers em **São Paulo e Fortaleza**, com réplica opcional. No plano Enterprise, tudo pode rodar dentro da sua própria nuvem ou em servidores locais.', { actions: menu() }) },
+    { k: /atlas|modelo de linguagem|\bllm\b|chatgpt|\bgpt\b/, run: () => say('O **Atlas 3** é o nosso modelo de linguagem, treinado para o português do Brasil.\n\n• Entende NF-e, contratos, boletos e Pix\n• Lê centenas de páginas de uma vez (1 milhão de tokens)\n• Começa a responder em 182 ms\n• Custa R$ 0,80 por milhão de tokens\n\nVocê pode testar agora na demo da página.',
+        { actions: [{ label: 'Abrir a demo', primary: true, run: () => goTo('#demo', 'Levei você até a demo ao vivo. Escolha um cenário e faça uma pergunta ao Atlas.') }, { label: 'Quanto custa?' }] }) },
+    { k: /pulse|agente|automat|robo de tarefa|rpa/, run: () => say('O **Pulse** cria agentes de IA que executam tarefas, não só respondem. Eles acessam ERP, CRM, planilhas e WhatsApp com permissões auditadas.\n\nNa Lógica Fretes, os agentes conciliam **30 mil transações por dia**. Antes eram três pessoas trabalhando uma semana.', { actions: menu() }) },
+    { k: /vision|visao|camera|imagem|foto|video|inspecao|estoque/, run: () => say('O **Vision** é a nossa visão computacional. Ele inspeciona produtos na linha de produção, lê documentos e conta estoque em tempo real.\n\nNa Agro Pampa, reduziu em **61%** o tempo de classificação de grãos.', { actions: menu() }) },
+    { k: /forge|treinar|treinamento|fine.?tun|ajuste fino|pesos|modelo proprio/, run: () => say('O **Forge** treina um modelo exclusivo com os seus dados, em GPUs dedicadas. Os pesos do modelo são seus, então nada fica preso à Cortexa. Ele faz parte do plano **Enterprise**.', { actions: menu() }) },
+    { k: /integra|\bsap\b|totvs|salesforce|hubspot|whatsapp|\bapi\b|\bsdk\b|\berp\b|\bcrm\b|sistema/, run: () => say('Sim! Temos conectores prontos para **SAP, TOTVS, Salesforce, HubSpot, WhatsApp Business, Google Workspace e Microsoft 365**.\n\nPara outros sistemas, há API REST e SDKs em Python e TypeScript.', { actions: menu() }) },
+    { k: /prazo|quanto tempo|semana|implanta|demora|comecar|como funciona|metodo|etapa/, run: () => say('Do primeiro contato à IA em produção são **seis semanas**:\n\n**Semana 1, diagnóstico:** mapeamos processos e onde a IA dá retorno.\n**Semanas 2 a 4, piloto:** um caso real, com métricas combinadas antes.\n**Semanas 5 e 6, escala:** produção com SLA, monitoramento e treinamento da equipe.',
+        { actions: [{ label: 'Falar com especialista', primary: true }, { label: 'Calcular minha economia' }] }) },
+    { k: /precis.*(programador|equipe|cientista|\bti\b|desenvolvedor|tecnico)/, run: () => say('Não precisa. Os engenheiros da Cortexa fazem o diagnóstico, o piloto e a implantação. Sua equipe recebe treinamento para usar e evoluir as soluções.', { actions: menu() }) },
+    { k: /produto|solucao|solucoes|servico|o que (a cortexa|voces|vcs|vc) (faz|fazem|oferece)|o que fazem/, run: () => say('A Cortexa tem cinco produtos que funcionam juntos:\n\n• **Atlas 3**: modelo de linguagem fluente em português\n• **Pulse**: agentes que executam tarefas nos seus sistemas\n• **Vision**: visão computacional para inspeção e documentos\n• **Shield**: governança e conformidade com a LGPD\n• **Forge**: treino de modelos próprios\n\nQuer saber mais de algum?',
+        { actions: [{ label: 'Atlas 3' }, { label: 'Pulse' }, { label: 'Vision' }, { label: 'Shield' }, { label: 'Forge' }] }) },
+    { k: /cliente|case|resultado|exemplo|quem usa/, run: () => say('Alguns resultados de clientes:\n\n• **Banco Meridiano**: 72% dos chamados resolvidos sem intervenção humana\n• **Varejo Aurora**: R$ 14 milhões a mais em receita no primeiro ano\n• **Agro Pampa**: 61% menos tempo na classificação de grãos\n\nSão mais de 320 empresas usando a Cortexa.', { actions: menu() }) },
+    { k: /quem e voce|quem e vc|voce e (um |uma )?(robo|humano|ia|pessoa)|seu nome|o que voce e/, run: () => say('Sou a **Cora**, assistente virtual da Cortexa. Sou uma IA, não uma pessoa. Se preferir falar com alguém do time, é só pedir.', { actions: menu() }) },
+    { k: /cortexa|empresa|quem sao voces|sobre voces/, run: () => say('A **Cortexa** é uma empresa brasileira de inteligência artificial. Criamos modelos, agentes e visão computacional para empresas, com dados guardados no Brasil. São mais de 320 clientes, de bancos a agronegócio.', { actions: menu() }) },
+    { k: /^(oi|ola|opa|eai|e ai|bom dia|boa tarde|boa noite|hey|hello|salve)\b/, run: () => say('Oi! Como posso ajudar?', { actions: menu(), delay: 200 }) },
+    { k: /obrigad|valeu|vlw|\bshow\b|\btop\b|perfeito|otimo|massa|legal/, run: () => say('Eu que agradeço! Se surgir qualquer outra dúvida, é só chamar. 😊', { actions: menu(), delay: 200 }) },
+    { k: /tchau|ate mais|falou|adeus/, run: () => say('Até mais! Fico por aqui no canto da tela se precisar.', { delay: 200 }) }
+  ];
+  const match = text => { const n = norm(text); return INTENTS.find(i => i.k.test(n)); };
+  /* Sai de um fluxo (calculadora, contato) quando a pessoa muda de assunto. */
+  async function escapeFlow(t) { const it = match(t); if (!it) return false; flow = null; await it.run(t); return true; }
+  const fallback = () => say('Ainda não sei responder isso com certeza, mas um especialista sabe. Posso te conectar com o time, ou você pode escolher um destes assuntos:', { actions: menu() });
+
+  /* Modo IA (só quando CORA_ENDPOINT estiver configurado) */
+  async function askAI(text) {
+    const t = typing();
+    let d = null, acc = '';
+    try {
+      const res = await fetch(CORA_ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ messages: history.slice(-20) }) });
+      if (!res.ok || !res.body) throw new Error('HTTP ' + res.status);
+      const reader = res.body.getReader(), dec = new TextDecoder();
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        if (!d && acc.trim()) { t.remove(); d = mk('div', 'cm bot'); log.append(d); }
+        if (d) { d.innerHTML = md(acc); down(); }
+      }
+      if (!acc.trim()) throw new Error('vazio');
+      history.push({ role: 'assistant', content: acc });
+    } catch (e) {
+      t.remove();
+      if (d) { history.push({ role: 'assistant', content: acc }); return; }
+      const it = match(text);
+      return it ? it.run(text) : fallback();
+    }
+  }
 })();
 </script>
 </body>
